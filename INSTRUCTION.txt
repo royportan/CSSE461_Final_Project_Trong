@@ -1,0 +1,54 @@
+THIS IS A Repo cloned from 
+https://github.com/ais-lab/pl2map
+
+
+run this in the terminal to install
+
+git clone https://github.com/ais-lab/pl2map.git
+cd pl2map
+git submodule update --init --recursive
+conda create --name pl2map python=3.9
+conda activate pl2map
+# Refer to https://pytorch.org/get-started/previous-versions/ to install pytorch compatible with your CUDA
+python -m pip install torch==1.12.0 torchvision==0.13.0 
+python -m pip install -r requirements.txt
+
+Notes: 
+deeplsd or pytlsd may not install properly. 
+If that happen, install them manually using pip.
+deeplsd weights installation links is broken, use the provided weights on my github repo or download from here https://github.com/cvg/DeepLSD?tab=readme-ov-file
+
+! IMPORTANT, NEED TO UNINSTALL datasets to avoid name conflict.
+After installing all the dependencies and libs
+
+
+run these commands in terminal to isntall data.
+./prepare_scripts/seven_scenes.sh
+./prepare_scripts/cambridge.sh 
+./prepare_scripts/indoor6.sh
+
+
+
+
+Run this install pretrained model
+./prepare_scripts/download_pre_trained_models.sh
+
+Run this for evalution 
+cuda device can be any valid number
+
+CUDA_VISIBLE_DEVICES=7 python runners/eval.py --dataset Cambridge --scene OldHospital -expv pl2map
+
+Note that this will show no visualization. 
+If you have a local computer you can set the visualization parameters to true in runners/eval.py.
+If not, gebru or jupyter does no support visualization.
+
+
+Need to save ply file
+I modified help_evaluation file. In class vis_info,update function, I commented out all the line of code that requires graphics window, and leave only code that save data.
+put the modified help_evaluation.py in pl2mal/util
+
+! IMPORTANT.
+NEED TO create a folder called visualization in pl2map folder.
+
+
+If youw want to run using jupyter notebook, I create a jupyter notebook, which takes the majority of code from eval.py in runners. I made some modification regarding the path to make it works. Install the jupyter noteobook and put it INSIDE the runners folder
